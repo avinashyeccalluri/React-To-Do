@@ -6,7 +6,6 @@ function ToDoList() {
     const [todos, setTodos] = useState([]);
 
     const addTodo = todo => {
-        console.log(todo);
       if (!todo.text || /^\s*$/.test(todo.text)) {
         return;
       }
@@ -15,6 +14,12 @@ function ToDoList() {
   
       setTodos(newTodos);
     };
+
+    const removeTodo = id =>{
+        const removeArr = [...todos].filter(todo => todo.id !== id)
+
+        setTodos(removeArr)
+    }
 
     const completeToDo = (id) => {
         let updatedTodos = todos.map(todo => {
@@ -26,11 +31,15 @@ function ToDoList() {
         setTodos(updatedTodos)
     }
 
+    const updateToDo = (todoId, newValue) => {
+        setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)));
+    }
+
 
     return (
         <div>
             <TodoForm onSubmit={addTodo}></TodoForm>
-            <Todo todos={todos} completeToDo={completeToDo}></Todo>
+            <Todo todos={todos} completeToDo={completeToDo} removeTodo={removeTodo} updateToDo = {updateToDo}></Todo>
         </div>
     )
 }
